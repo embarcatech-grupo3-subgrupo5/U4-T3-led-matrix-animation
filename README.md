@@ -44,7 +44,7 @@ O sistema permite a geração de diferentes animações na matriz de LEDs a part
 
 1. Clone este repositório:
    ```bash
-   git clone <(https://github.com/embarcatech-grupo3-subgrupo5/U4-T3-led-matrix-animation)>
+   git clone <https://github.com/embarcatech-grupo3-subgrupo5/U4-T3-led-matrix-animation>
    ```
 
 2. Abra o projeto no VS Code.
