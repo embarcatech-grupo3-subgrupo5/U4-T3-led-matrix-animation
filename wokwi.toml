@@ -1,0 +1,4 @@
+[wokwi]
+version = 1
+firmware = 'build/U4-T3-led-matrix-animation.uf2'
+elf = 'build/U4-T3-led-matrix-animation.elf'
