@@ -4,10 +4,8 @@
 #include <stdint.h>
 #include "hardware/pio.h"
 
-// Frames para a animação 1 - Geison
-extern double animation1_frame1[25];
-extern double animation1_frame2[25];
-extern double animation1_frame3[25];
+// Frames para a animação da caveira
+extern const double skull_frames[10][25];
 
 // Função para desenhar no PIO
 void desenho_pio(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b);
@@ -16,6 +14,8 @@ void desenho_pio(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r
 uint32_t matrix_rgb(double b, double r, double g);
 
 // Funções para reproduzir as animações
-void play_animation1(uint32_t valor_led, PIO pio, uint sm, double r, double g, double b);
+void play_skull_animation(uint32_t valor_led, PIO pio, uint sm);
+
+void apagar_matriz(uint32_t valor_led, PIO pio, uint sm);
 
 #endif // ANIMATIONS_H

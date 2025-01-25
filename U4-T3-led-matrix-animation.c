@@ -72,25 +72,15 @@ char read_keypad() {
     return ' ';
 }
 
-//imprimir valor binário
-void imprimir_binario(int num) {
- int i;
- for (i = 31; i >= 0; i--) {
-  (num & (1 << i)) ? printf("1") : printf("0");
- }
+// Função para converter valores RGB em um único valor de 32 bits
+uint32_t matrix_rgb(double b, double r, double g) {
+    unsigned char R = r * 255;
+    unsigned char G = g * 255;
+    unsigned char B = b * 255;
+    return (G << 24) | (R << 16) | (B << 8);
 }
 
-//rotina para definição da intensidade de cores do led
-uint32_t matrix_rgb(double b, double r, double g){
-  unsigned char R, G, B;
-  R = r * 255;
-  G = g * 255;
-  B = b * 255;
-  return (G << 24) | (R << 16) | (B << 8);
-}
-
-
-
+// Função para apagar a matriz de LEDs
 void apagar_matriz(uint32_t valor_led, PIO pio, uint sm) {
     for (int16_t i = 0; i < NUM_LEDS; i++) {
         valor_led = matrix_rgb(0.0, 0.0, 0.0);
@@ -98,29 +88,28 @@ void apagar_matriz(uint32_t valor_led, PIO pio, uint sm) {
     }
 }
 
-
-//função principal
-int main(){
-    PIO pio = pio0; 
+// Função principal
+int main() {
+    PIO pio = pio0;
     bool ok;
-    uint16_t i;
     uint32_t valor_led;
-    double r = 0.0, b = 0.0 , g = 0.0;
+    double r = 0.0, g = 0.0, b = 0.0;
 
-    //coloca a frequência de clock para 128 MHz, facilitando a divisão pelo clock
+    // Configuração do clock
     ok = set_sys_clock_khz(128000, false);
-    // Inicializa todos os códigos stdio padrão que estão ligados ao binário.
     stdio_init_all();
 
-    printf("iniciando a transmissão PIO");
-    if (ok) printf("clock set to %ld\n", clock_get_hz(clk_sys));
+    printf("Iniciando a transmissão PIO\n");
+    if (ok) printf("Clock set to %ld\n", clock_get_hz(clk_sys));
 
-    //configurações da PIO
+    // Configuração da PIO
     uint offset = pio_add_program(pio, &pio_matrix_program);
     uint sm = pio_claim_unused_sm(pio, true);
     pio_matrix_program_init(pio, sm, offset, OUT_PIN);
 
-    
+    // Inicializa o teclado matricial
+    init_keypad();
+
     while (1) {
         char key = read_keypad();
         if (key != ' ') {
@@ -129,16 +118,7 @@ int main(){
 
             switch (key) {
                 case '1':
-                    r = 1.0; g = 0.0; b = 0.0; // Vermelho
-                    play_animation1(valor_led, pio, sm, r, g, b);
-                    break;
-                case '2':
-                    r = 0.0; g = 1.0; b = 0.0; // Verde
-                    play_animation1(valor_led, pio, sm, r, g, b);
-                    break;
-                case '3':
-                    r = 0.0; g = 0.0; b = 1.0; // Azul
-                    play_animation1(valor_led, pio, sm, r, g, b);
+                    play_skull_animation(valor_led, pio, sm);
                     break;
                 default:
                     printf("Tecla não mapeada\n");
