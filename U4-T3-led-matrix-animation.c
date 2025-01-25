@@ -7,6 +7,8 @@
 #include "hardware/adc.h"
 #include "pico/bootrom.h"
 
+#include "animations.h"
+
 // Inclusão do arquivo .pio
 #include "pio_matrix.pio.h"
 
@@ -14,43 +16,61 @@
 #define NUM_LEDS 25
 
 // Definição do pino de saída
-#define OUT_PIN 7
+#define OUT_PIN 15
 
-//botão de interupção
-const uint button_0 = 5;
-const uint button_1 = 6;
+// Definição dos pinos do teclado matricial - Geison
+#define ROW1 26
+#define ROW2 22
+#define ROW3 23
+#define ROW4 20
+#define COL1 19
+#define COL2 18
+#define COL3 17
+#define COL4 16
 
-//vetor para criar imagem na matriz de led - 1
-double desenho[25] =   {0.0, 0.3, 0.3, 0.3, 0.0,
-                        0.0, 0.3, 0.0, 0.3, 0.0, 
-                        0.0, 0.3, 0.3, 0.3, 0.0,
-                        0.0, 0.3, 0.0, 0.3, 0.0,
-                        0.0, 0.3, 0.3, 0.3, 0.0};
+#define DEBOUNCE_TIME 60 // Tempo de debounce em ms, para evitar leituras incorretas ao pressionar rapidamente as teclas - Geison
 
-//vetor para criar imagem na matriz de led - 2
-double desenho2[25] =   {1.0, 0.0, 0.0, 0.0, 1.0,
-                        0.0, 1.0, 0.0, 1.0, 0.0, 
-                        0.0, 0.0, 1.0, 0.0, 0.0,
-                        0.0, 1.0, 0.0, 1.0, 0.0,
-                        1.0, 0.0, 0.0, 0.0, 1.0};
+// Função para inicializar o teclado matricial - Geison
+void init_keypad() {
+    gpio_init(ROW1); gpio_set_dir(ROW1, GPIO_OUT); gpio_put(ROW1, true);
+    gpio_init(ROW2); gpio_set_dir(ROW2, GPIO_OUT); gpio_put(ROW2, true);
+    gpio_init(ROW3); gpio_set_dir(ROW3, GPIO_OUT); gpio_put(ROW3, true);
+    gpio_init(ROW4); gpio_set_dir(ROW4, GPIO_OUT); gpio_put(ROW4, true);
 
-double frame1[25] =   {0.0, 0.0, 0.0, 0.0, 0.0,
-                        0.0, 0.0, 0.0, 0.0, 0.0, 
-                        0.0, 0.0, 1.0, 0.0, 0.0,
-                        0.0, 0.0, 0.0, 0.0, 0.0,
-                        0.0, 0.0, 0.0, 0.0, 0.0};
+    gpio_init(COL1); gpio_set_dir(COL1, GPIO_IN); gpio_pull_up(COL1);
+    gpio_init(COL2); gpio_set_dir(COL2, GPIO_IN); gpio_pull_up(COL2);
+    gpio_init(COL3); gpio_set_dir(COL3, GPIO_IN); gpio_pull_up(COL3);
+    gpio_init(COL4); gpio_set_dir(COL4, GPIO_IN); gpio_pull_up(COL4);
+}
 
-double frame2[25] =   {0.0, 0.0, 0.0, 0.0, 0.0,
-                        0.0, 1.0, 1.0, 1.0, 0.0, 
-                        0.0, 1.0, 0.0, 1.0, 0.0,
-                        0.0, 0.0, 1.0, 0.0, 0.0,
-                        0.0, 0.0, 0.0, 0.0, 0.0};
+// Função para ler a tecla pressionada no teclado matricial - Geison
+char read_keypad() {
+    const char keys[4][4] = {
+        {'1', '2', '3', 'A'},
+        {'4', '5', '6', 'B'},
+        {'7', '8', '9', 'C'},
+        {'*', '0', '#', 'D'}
+    };
 
-double frame3 [25] =   {1.0, 1.0, 0.0, 1.0, 1.0,
-                        1.0, 0.0, 0.0, 0.0, 1.0, 
-                        1.0, 0.0, 0.0, 0.0, 1.0,
-                        0.0, 1.0, 0.0, 1.0, 0.0,
-                        0.0, 0.0, 1.0, 0.0, 0.0};                                               
+    for (int row = 0; row < 4; row++) {
+        gpio_put(ROW1, true);
+        gpio_put(ROW2, true);
+        gpio_put(ROW3, true);
+        gpio_put(ROW4, true);
+
+        if (row == 0) gpio_put(ROW1, false);
+        if (row == 1) gpio_put(ROW2, false);
+        if (row == 2) gpio_put(ROW3, false);
+        if (row == 3) gpio_put(ROW4, false);
+
+        if (!gpio_get(COL1)) return keys[row][0];
+        if (!gpio_get(COL2)) return keys[row][1];
+        if (!gpio_get(COL3)) return keys[row][2];
+        if (!gpio_get(COL4)) return keys[row][3];
+    }
+
+    return ' ';
+}
 
 //imprimir valor binário
 void imprimir_binario(int num) {
@@ -60,17 +80,8 @@ void imprimir_binario(int num) {
  }
 }
 
-
-//rotina da interrupção
-static void gpio_irq_handler(uint gpio, uint32_t events){
-    printf("Interrupção ocorreu no pino %d, no evento %d\n", gpio, events);
-    printf("HABILITANDO O MODO GRAVAÇÃO");
-	reset_usb_boot(0,0); //habilita o modo de gravação do microcontrolador
-}
-
 //rotina para definição da intensidade de cores do led
-uint32_t matrix_rgb(double b, double r, double g)
-{
+uint32_t matrix_rgb(double b, double r, double g){
   unsigned char R, G, B;
   R = r * 255;
   G = g * 255;
@@ -78,61 +89,18 @@ uint32_t matrix_rgb(double b, double r, double g)
   return (G << 24) | (R << 16) | (B << 8);
 }
 
-//rotina para acionar a matrix de leds - ws2812b
-void desenho_pio(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b){
 
+
+void apagar_matriz(uint32_t valor_led, PIO pio, uint sm) {
     for (int16_t i = 0; i < NUM_LEDS; i++) {
-        if (i%2==0)
-        {
-            valor_led = matrix_rgb(desenho[24-i], r=0.0, g=0.0);
-            pio_sm_put_blocking(pio, sm, valor_led);
-
-        }else{
-            valor_led = matrix_rgb(b=0.0, desenho[24-i], g=0.0);
-            pio_sm_put_blocking(pio, sm, valor_led);
-        }
-    }
-    imprimir_binario(valor_led);
-}
-
-void desenho_pio_blue(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b){
-    for (int16_t i = 0; i < NUM_LEDS; i++) {
-            valor_led = matrix_rgb(r=0.0, g=0.0, desenho[24-i]);
-            pio_sm_put_blocking(pio, sm, valor_led);
-    }
-    imprimir_binario(valor_led);
-}
-
-void desenho_pio_red(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b){
-    for (int16_t i = 0; i < NUM_LEDS; i++) {
-            valor_led = matrix_rgb(desenho[24-i], g=0.0, b=0.0);
-            pio_sm_put_blocking(pio, sm, valor_led);
-    }
-    imprimir_binario(valor_led);
-}
-
-void apagar_matriz(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b){
-    for (int16_t i = 0; i < NUM_LEDS; i++) {
-            valor_led = matrix_rgb(r=0.0, g=0.0, b=0.0);
-            pio_sm_put_blocking(pio, sm, valor_led);
-    }
-    imprimir_binario(valor_led);
-}
-
-void animacao(uint32_t valor_led, PIO pio, uint sm, double r, double g, double b){
-    for (int16_t i = 0; i < 10; i++) {
-        desenho_pio(frame1, valor_led, pio, sm, r, g, b);
-        sleep_ms(500);
-        desenho_pio(frame2, valor_led, pio, sm, r, g, b);
-        sleep_ms(500);
-        desenho_pio(frame3, valor_led, pio, sm, r, g, b);
-        sleep_ms(500);
+        valor_led = matrix_rgb(0.0, 0.0, 0.0);
+        pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
+
 
 //função principal
-int main()
-{
+int main(){
     PIO pio = pio0; 
     bool ok;
     uint16_t i;
@@ -141,7 +109,6 @@ int main()
 
     //coloca a frequência de clock para 128 MHz, facilitando a divisão pelo clock
     ok = set_sys_clock_khz(128000, false);
-
     // Inicializa todos os códigos stdio padrão que estão ligados ao binário.
     stdio_init_all();
 
@@ -153,22 +120,31 @@ int main()
     uint sm = pio_claim_unused_sm(pio, true);
     pio_matrix_program_init(pio, sm, offset, OUT_PIN);
 
-    //inicializar o botão de interrupção - GPIO5
-    gpio_init(button_0);
-    gpio_set_dir(button_0, GPIO_IN);
-    gpio_pull_up(button_0);
+    
+    while (1) {
+        char key = read_keypad();
+        if (key != ' ') {
+            printf("Tecla pressionada: %c\n", key);
+            apagar_matriz(valor_led, pio, sm);
 
-    //inicializar o botão de interrupção - GPIO5
-    gpio_init(button_1);
-    gpio_set_dir(button_1, GPIO_IN);
-    gpio_pull_up(button_1);
+            switch (key) {
+                case '1':
+                    r = 1.0; g = 0.0; b = 0.0; // Vermelho
+                    play_animation1(valor_led, pio, sm, r, g, b);
+                    break;
+                case '2':
+                    r = 0.0; g = 1.0; b = 0.0; // Verde
+                    play_animation1(valor_led, pio, sm, r, g, b);
+                    break;
+                case '3':
+                    r = 0.0; g = 0.0; b = 1.0; // Azul
+                    play_animation1(valor_led, pio, sm, r, g, b);
+                    break;
+                default:
+                    printf("Tecla não mapeada\n");
+            }
+        }
 
-    //interrupção da gpio habilitada
-    gpio_set_irq_enabled_with_callback(button_0, GPIO_IRQ_EDGE_FALL, 1, & gpio_irq_handler);
-
-
-
-    animacao(valor_led, pio, sm, r, g, b);
-    sleep_ms(500);
-    printf("\nfrequeência de clock %ld\r\n", clock_get_hz(clk_sys));
+        sleep_ms(DEBOUNCE_TIME);
+    }
 }

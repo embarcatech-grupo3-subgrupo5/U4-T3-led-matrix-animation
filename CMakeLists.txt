@@ -46,7 +46,11 @@ pico_enable_stdio_usb(U4-T3-led-matrix-animation 1)
 
 pico_generate_pio_header(U4-T3-led-matrix-animation ${CMAKE_CURRENT_LIST_DIR}/pio_matrix.pio)
 
-target_sources(U4-T3-led-matrix-animation PRIVATE U4-T3-led-matrix-animation.c)
+# Adicionando o arquivo animations.c
+target_sources(U4-T3-led-matrix-animation PRIVATE 
+    U4-T3-led-matrix-animation.c
+    animations.c
+)
 
 # Add the standard library to the build
 target_link_libraries(U4-T3-led-matrix-animation PRIVATE
