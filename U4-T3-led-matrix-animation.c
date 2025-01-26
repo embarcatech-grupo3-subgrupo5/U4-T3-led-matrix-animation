@@ -123,8 +123,14 @@ int main() {
                 case '4':
                     play_animation4(valor_led, pio, sm);
                     break;
+                case 'A':
+                    apagar_matriz(valor_led, pio, sm);
+                    break;
                 case 'B':
                     ligar_leds_azuis(valor_led, pio, sm);
+                    break;
+                case 'D':
+                    ligar_leds_verdes(valor_led, pio, sm);
                     break;
                 default:
                     printf("Tecla não mapeada\n");
