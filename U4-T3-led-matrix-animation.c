@@ -12,16 +12,20 @@
 // Inclusão do arquivo .pio
 #include "pio_matrix.pio.h"
 
+//--------------------------------------------------------------------------------------------------------------------------------
+bool modo_uart = true; // Inicia no modo UART por padrão, para utilizar o modo do teclado matricial no wokwi, altere para false  |
+//--------------------------------------------------------------------------------------------------------------------------------
+
 // Definição do número de LEDs
 #define NUM_LEDS 25
 
 // Definição do pino de saída dos LEDs
-#define OUT_PIN 15
+#define OUT_PIN 7
 
-// Definição dos pinos do teclado matricial - Geison
-#define ROW1 26
-#define ROW2 22
-#define ROW3 23
+// Definição dos pinos do teclado matricial
+#define ROW1 27
+#define ROW2 26
+#define ROW3 22
 #define ROW4 20
 #define COL1 19
 #define COL2 18
@@ -30,7 +34,40 @@
 
 #define DEBOUNCE_TIME 60 // Tempo de debounce em ms, para evitar leituras incorretas ao pressionar rapidamente as teclas - Geison
 
-// Função para inicializar o teclado matricial - Geison
+#define BUZZER 21 // Pino do buzzer
+
+// Função para inicializar o buzzer
+void init_buzzer()
+{
+    gpio_init(BUZZER);
+    gpio_set_dir(BUZZER, GPIO_OUT);
+}
+
+// Função para acionar o buzzer com uma frequência específica
+void acionar_buzzer_com_frequencia(uint32_t frequencia, uint32_t duracao_ms)
+{
+    uint32_t periodo = 1000000 / frequencia;
+    uint32_t meio_periodo = periodo / 2;
+    uint32_t tempo_final = time_us_32() + (duracao_ms * 1000);
+
+    while (time_us_32() < tempo_final)
+    {
+        gpio_put(BUZZER, 1);
+        sleep_us(meio_periodo);
+        gpio_put(BUZZER, 0);
+        sleep_us(meio_periodo);
+    }
+}
+
+uint32_t matrix_rgb(double b, double r, double g)
+{
+    unsigned char R = (unsigned char)(r * 255);
+    unsigned char G = (unsigned char)(g * 255);
+    unsigned char B = (unsigned char)(b * 255);
+    return (G << 24) | (R << 16) | (B << 8);
+}
+
+// Função para inicializar o teclado matricial
 void init_keypad()
 {
     gpio_init(ROW1);
@@ -60,7 +97,7 @@ void init_keypad()
     gpio_pull_up(COL4);
 }
 
-// Função para ler a tecla pressionada no teclado matricial - Geison
+// Função para ler a tecla pressionada no teclado matricial
 char read_keypad()
 {
     const char keys[4][4] = {
@@ -98,15 +135,6 @@ char read_keypad()
     return ' ';
 }
 
-// Função para converter valores RGB em um único valor de 32 bits
-uint32_t matrix_rgb(double b, double r, double g)
-{
-    unsigned char R = r * 255;
-    unsigned char G = g * 255;
-    unsigned char B = b * 255;
-    return (G << 24) | (R << 16) | (B << 8);
-}
-
 // Função para apagar a matriz de LEDs
 void apagar_matriz(uint32_t valor_led, PIO pio, uint sm)
 {
@@ -117,62 +145,82 @@ void apagar_matriz(uint32_t valor_led, PIO pio, uint sm)
     }
 }
 
+// Função para processar comandos
+void processar_comandos(char comando, uint32_t valor_led, PIO pio, uint sm)
+{
+    switch (comando)
+    {
+    case '1': // Animação 1
+        play_animation1(valor_led, pio, sm);
+        break;
+    case '4': // Animação 4
+        play_animation4(valor_led, pio, sm);
+        break;
+    case 'A': // Apagar matriz
+        apagar_matriz(valor_led, pio, sm);
+        break;
+    case 'B': // Ligar LEDs azuis
+        ligar_leds_azuis(valor_led, pio, sm);
+        break;
+    case 'D': // Ligar LEDs verdes
+        ligar_leds_verdes(valor_led, pio, sm);
+        break;
+    case '6': // Buzzer por 2 segundos
+        acionar_buzzer_com_frequencia(1000, 2000);
+        break;
+    case '*': // Reset USB
+        reset_usb_boot(0, 0);
+        printf("Modo de gravação habilitado.\n");
+        break;
+    default:
+        printf("Comando desconhecido: %c\n", comando);
+        break;
+    }
+}
+
 // Função principal
 int main()
 {
     PIO pio = pio0;
-    bool ok;
     uint32_t valor_led;
-    double r = 0.0, g = 0.0, b = 0.0;
-
-    // Configuração do clock
-    ok = set_sys_clock_khz(128000, false);
     stdio_init_all();
+    init_keypad();
+    init_buzzer();
 
-    printf("Iniciando a transmissão PIO\n");
-    if (ok)
-        printf("Clock set to %ld\n", clock_get_hz(clk_sys));
-
-    // Configuração da PIO
+    // Configuração do PIO para LEDs
     uint offset = pio_add_program(pio, &pio_matrix_program);
     uint sm = pio_claim_unused_sm(pio, true);
     pio_matrix_program_init(pio, sm, offset, OUT_PIN);
 
-    // Inicializa o teclado matricial
-    init_keypad();
+    printf("Sistema iniciado. Insira um comando:\n");
+    printf("1: Animação 1\n");
+    printf("4: Animação 4\n");
+    printf("A: Apagar LEDs\n");
+    printf("B: Ligar LEDs azuis\n");
+    printf("D: Ligar LEDs verdes\n");
+    printf("6: Buzzer por 2 segundos\n");
+    printf("*: Reset USB\n");
 
     while (1)
     {
-        char key = read_keypad();
-        if (key != ' ')
-        {
-            printf("Tecla pressionada: %c\n", key);
-            apagar_matriz(valor_led, pio, sm);
+        char comando;
 
-            switch (key)
-            {
-            case '1':
-                play_skull_animation(valor_led, pio, sm);
-                break;
-            case '4':
-                play_animation4(valor_led, pio, sm);
-                break;
-            case 'A':
-                apagar_matriz(valor_led, pio, sm);
-                break;
-            case 'B':
-                ligar_leds_azuis(valor_led, pio, sm);
-                break;
-            case 'D':
-                ligar_leds_verdes(valor_led, pio, sm);
-                break;
-            case '*':
-                reset_usb_boot(0, 0);
-                printf("Modo de gravação habilitado.\n");
-            default:
-                printf("Tecla não mapeada\n");
-            }
+        if (modo_uart)
+        {
+            printf("Modo UART: Digite um comando: ");
+            comando = getchar(); // Recebe comando via UART
         }
-        sleep_ms(DEBOUNCE_TIME);
+        else
+        {
+            comando = read_keypad(); // Recebe comando do teclado matricial
+        }
+
+        if (comando != ' ')
+        {
+            printf("Comando recebido: %c\n", comando);
+            processar_comandos(comando, valor_led, pio, sm); // Processa o comando
+        }
+
+        sleep_ms(DEBOUNCE_TIME); // Para evitar leituras rápidas no teclado matricial
     }
 }
