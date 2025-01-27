@@ -81,17 +81,16 @@ void init_keypad() {
     gpio_pull_up(COL4);
 }
 
-// Função para ler a tecla pressionada no teclado matricial - Geison
-char read_keypad()
-{
+// Função para ler a tecla pressionada no teclado matricial
+char read_keypad() {
     const char keys[4][4] = {
         {'1', '2', '3', 'A'},
         {'4', '5', '6', 'B'},
         {'7', '8', '9', 'C'},
-        {'*', '0', '#', 'D'}};
+        {'*', '0', '#', 'D'}
+    };
 
-    for (int row = 0; row < 4; row++)
-    {
+    for (int row = 0; row < 4; row++) {
         gpio_put(ROW1, true);
         gpio_put(ROW2, true);
         gpio_put(ROW3, true);
