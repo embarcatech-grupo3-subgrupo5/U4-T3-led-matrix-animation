@@ -210,7 +210,7 @@ void play_animation4(uint32_t valor_led, PIO pio, uint sm)
             {
                 valor_led = matrix_rgb(0.0, 0.0, 1.0); // Verde
             }
-            else if (animation4_frames[f][24 - i] == 0.5)
+            else if (animation4_frames[f][24 - i] == 0.5)            
             {
                 valor_led = matrix_rgb(1.0, 0.0, 0.0); // Azul
             }
@@ -248,6 +248,16 @@ void ligar_leds_azuis(uint32_t valor_led, PIO pio, uint sm)
     for (int i = 0; i < 25; i++)
     {
         valor_led = matrix_rgb(1.0, 0.0, 0.0);
+        pio_sm_put_blocking(pio, sm, valor_led);
+    }
+}
+// Acende todos os leds na cor Vermelha, com intesidade de 80%
+void ligar_leds_azuis(uint32_t valor_led, PIO pio, uint sm)
+{
+    sleep_ms(500);
+    for (int i = 0; i < 25; i++)
+    {
+        valor_led = matrix_rgb(0.0, 0.0, 0.8);
         pio_sm_put_blocking(pio, sm, valor_led);
     }
 }

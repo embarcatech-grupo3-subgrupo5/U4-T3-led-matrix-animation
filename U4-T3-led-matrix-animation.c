@@ -162,6 +162,9 @@ void processar_comandos(char comando, uint32_t valor_led, PIO pio, uint sm)
     case 'B': // Ligar LEDs azuis
         ligar_leds_azuis(valor_led, pio, sm);
         break;
+    case 'C': // Ligar LEDs Vermelhos
+        ligar_leds_reds(valor_led, pio, sm);
+        break;
     case 'D': // Ligar LEDs verdes
         ligar_leds_verdes(valor_led, pio, sm);
         break;
@@ -196,7 +199,8 @@ int main()
     printf("1: Animação 1\n");
     printf("4: Animação 4\n");
     printf("A: Apagar LEDs\n");
-    printf("B: Ligar LEDs azuis\n");
+    printf("B: Ligar LEDs azuis\n"); 
+    printf("B: Ligar LEDs reds\n");
     printf("D: Ligar LEDs verdes\n");
     printf("6: Buzzer por 2 segundos\n");
     printf("*: Reset USB\n");
