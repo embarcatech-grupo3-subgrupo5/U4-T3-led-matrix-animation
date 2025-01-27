@@ -18,10 +18,10 @@
 // Definição do pino de saída dos LEDs
 #define OUT_PIN 15
 
-// Definição dos pinos do teclado matricial - Geison
-#define ROW1 26
-#define ROW2 22
-#define ROW3 23
+// Definição dos pinos do teclado matricial
+#define ROW1 27
+#define ROW2 26
+#define ROW3 22
 #define ROW4 20
 #define COL1 19
 #define COL2 18
@@ -33,6 +33,30 @@
 // Função para inicializar o teclado matricial - Geison
 void init_keypad()
 {
+#define BUZZER 21 // Pino do buzzer
+
+// Função para inicializar o buzzer
+void init_buzzer() {
+    gpio_init(BUZZER);
+    gpio_set_dir(BUZZER, GPIO_OUT);
+}
+
+// Função para acionar o buzzer com uma frequência específica
+void acionar_buzzer_com_frequencia(uint32_t frequencia, uint32_t duracao_ms) {
+    uint32_t periodo = 1000000 / frequencia;
+    uint32_t meio_periodo = periodo / 2;
+    uint32_t tempo_final = time_us_32() + (duracao_ms * 1000);
+
+    while (time_us_32() < tempo_final) {
+        gpio_put(BUZZER, 1);
+        sleep_us(meio_periodo);
+        gpio_put(BUZZER, 0);
+        sleep_us(meio_periodo);
+    }
+}
+
+// Função para inicializar o teclado matricial
+void init_keypad() {
     gpio_init(ROW1);
     gpio_set_dir(ROW1, GPIO_OUT);
     gpio_put(ROW1, true);
