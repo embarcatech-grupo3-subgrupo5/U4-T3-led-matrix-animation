@@ -16,6 +16,12 @@ uint32_t matrix_rgb(double b, double r, double g);
 // Funções para reproduzir as animações
 void play_skull_animation(uint32_t valor_led, PIO pio, uint sm);
 
+void play_animation4(uint32_t valor_led, PIO pio, uint sm);
+
 void apagar_matriz(uint32_t valor_led, PIO pio, uint sm);
+
+void ligar_leds_azuis(uint32_t valor_led, PIO pio, uint sm);
+
+void ligar_leds_verdes(uint32_t valor_led, PIO pio, uint sm);
 
 #endif // ANIMATIONS_H
