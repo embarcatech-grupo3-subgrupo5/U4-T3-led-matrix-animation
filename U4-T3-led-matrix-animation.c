@@ -30,9 +30,6 @@
 
 #define DEBOUNCE_TIME 60 // Tempo de debounce em ms, para evitar leituras incorretas ao pressionar rapidamente as teclas - Geison
 
-// Função para inicializar o teclado matricial - Geison
-void init_keypad()
-{
 #define BUZZER 21 // Pino do buzzer
 
 // Função para inicializar o buzzer
