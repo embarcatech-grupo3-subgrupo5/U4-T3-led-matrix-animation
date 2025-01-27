@@ -4,9 +4,6 @@
 #include <stdint.h>
 #include "hardware/pio.h"
 
-// Frames para a animação da caveira
-extern const double skull_frames[10][25];
-
 // Função para desenhar no PIO
 void desenho_pio(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b);
 
@@ -14,7 +11,7 @@ void desenho_pio(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r
 uint32_t matrix_rgb(double b, double r, double g);
 
 // Funções para reproduzir as animações
-void play_skull_animation(uint32_t valor_led, PIO pio, uint sm);
+void play_animation1(uint32_t valor_led, PIO pio, uint sm);
 
 void play_animation4(uint32_t valor_led, PIO pio, uint sm);
 
@@ -23,5 +20,7 @@ void apagar_matriz(uint32_t valor_led, PIO pio, uint sm);
 void ligar_leds_azuis(uint32_t valor_led, PIO pio, uint sm);
 
 void ligar_leds_verdes(uint32_t valor_led, PIO pio, uint sm);
+
+void acionar_buzzer_com_frequencia(uint32_t frequencia, uint32_t duracao_ms);
 
 #endif // ANIMATIONS_H
