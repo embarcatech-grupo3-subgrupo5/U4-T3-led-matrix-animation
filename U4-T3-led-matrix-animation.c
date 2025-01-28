@@ -200,7 +200,7 @@ int main()
     printf("4: Animação 4\n");
     printf("A: Apagar LEDs\n");
     printf("B: Ligar LEDs azuis\n"); 
-    printf("B: Ligar LEDs reds\n");
+    printf("C: Ligar LEDs reds\n");
     printf("D: Ligar LEDs verdes\n");
     printf("6: Buzzer por 2 segundos\n");
     printf("*: Reset USB\n");
