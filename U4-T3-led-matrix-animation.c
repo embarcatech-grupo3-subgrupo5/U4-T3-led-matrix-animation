@@ -166,7 +166,7 @@ void processar_comandos(char comando, uint32_t valor_led, PIO pio, uint sm)
         ligar_leds_azuis(valor_led, pio, sm);
         break;
     case 'C': // Ligar LEDs Vermelhos
-        ligar_leds_reds(valor_led, pio, sm);
+        ligar_leds_vermelhos(valor_led, pio, sm);
         break;
     case 'D': // Ligar LEDs verdes
         ligar_leds_verdes(valor_led, pio, sm);

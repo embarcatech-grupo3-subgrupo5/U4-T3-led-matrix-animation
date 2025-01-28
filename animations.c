@@ -298,7 +298,7 @@ void ligar_leds_azuis(uint32_t valor_led, PIO pio, uint sm)
     }
 }
 // Acende todos os leds na cor Vermelho, com intesidade de 80%
-void ligar_leds_reds(uint32_t valor_led, PIO pio, uint sm)
+void ligar_leds_vermelhos(uint32_t valor_led, PIO pio, uint sm)
 {
     sleep_ms(800);
     for (int i = 0; i < 25; i++)
