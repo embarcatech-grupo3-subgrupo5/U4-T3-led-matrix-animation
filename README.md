@@ -152,6 +152,7 @@ Este projeto foi desenvolvido pela equipe do curso Embarcatech, com a colaboraç
 - **Líder:** Geison
 - **Desenvolvedores:**
 - Emyle (Animação 4 e teclas A, B, D)
+- Julierme (Animação 5 e tecla C)
 
 [Outros integrantes a serem adicionados]
 
