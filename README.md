@@ -112,12 +112,13 @@ Confira o vídeo demonstrativo do projeto: [Link para o vídeo](#)
 - [x] **Implementação das animações de 0 a 9:**  
   - [x] **Animação 1**: Desenvolvida por Geison.  
   - [x] **Animação 4**: Desenvolvida por Emyle.  
+  - [x] **Animação 5**: Desenvolvida por Julierme.  
   - [ ] Demais animações pendentes.
 
 - [x] **Teclas de controle:**  
   - [x] **Tecla A:** Desliga todos os LEDs (Responsável: Emyle).  
   - [x] **Tecla B:** Liga todos os LEDs na cor azul com 100% de luminosidade (Responsável: Emyle).  
-  - [x] **Tecla C:** Liga todos os LEDs na cor vermelha com 80% de luminosidade (Responsável: ???).  
+  - [x] **Tecla C:** Liga todos os LEDs na cor vermelha com 80% de luminosidade (Responsável: Julierme).  
   - [x] **Tecla D:** Liga todos os LEDs na cor verde com 50% de luminosidade (Responsável: Emyle).  
   - [x] **Tecla #:** Liga todos os LEDs na cor branca com 20% de luminosidade (Responsável: ).  
   - [x] **Tecla *:** Habilita o modo de gravação via software (Responsável: Geison).
