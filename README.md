@@ -1,8 +1,11 @@
 # Geração de Animações em uma Matriz de LEDs 5x5
 
 ---
-![Image](https://github.com/user-attachments/assets/39af7576-f2a4-46ac-9d8b-d48e2d324a55)
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/39af7576-f2a4-46ac-9d8b-d48e2d324a55" alt="Descrição da imagem">
+</div>
 ---
+
 
 Este projeto faz parte da terceira atividade obrigatória da unidade 4 do curso Embarcatech em sistemas embarcados e tem como objetivo utilizar o simulador Wokwi, o microcontrolador Raspberry Pi Pico W, e um teclado matricial 4x4 para controlar animações em uma matriz de LEDs coloridos 5x5 WS2812.
 
