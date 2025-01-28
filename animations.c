@@ -228,6 +228,52 @@ void play_animation4(uint32_t valor_led, PIO pio, uint sm)
     }
 }
 
+void play_animation5(uint32_t valor_led, PIO pio, uint sm)
+{
+    // Frequências de uma melodia curta
+    uint32_t frequencias[] = {440, 494, 523, 440, 494, 523, 659, 698, 440, 523};
+    uint32_t duracoes[] = {300, 300, 300, 300, 300, 300, 300, 300, 300, 300};
+
+    // Número de frames e LEDs na matriz
+    int total_frames = 10;
+    int num_leds = 25;
+
+    // Padrão de cores (R, G, B)
+    float cores[][3] = {
+        {1.0, 0.0, 0.0}, // Vermelho
+        {0.0, 1.0, 0.0}, // Verde
+        {0.0, 0.0, 1.0}, // Azul
+        {1.0, 1.0, 0.0}, // Amarelo
+        {1.0, 0.0, 1.0}  // Magenta
+    };
+
+    for (int f = 0; f < total_frames; f++)
+    {
+        for (int i = 0; i < num_leds; i++)
+        {
+            // Determinar a posição do LED na espiral
+            int pos = (f + i) % num_leds;
+
+            // Alternar entre cores com base no frame atual
+            int cor_index = (f + i) % 5;
+            valor_led = matrix_rgb(cores[cor_index][0], cores[cor_index][1], cores[cor_index][2]);
+
+            // Atualizar o LED
+            pio_sm_put_blocking(pio, sm, valor_led);
+        }
+
+        // Tocar a nota correspondente ao frame atual
+        if (f < 10 && frequencias[f] != 0)
+        {
+            acionar_buzzer_com_frequencia(frequencias[f], duracoes[f]);
+        }
+
+        // Pausa entre os frames
+        sleep_ms(500);
+    }
+}
+
+
 // rotina para acionar a matrix de leds - ws2812b
 //  Função para desenhar na matriz de LEDs
 void desenho_pio(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b)
@@ -251,7 +297,16 @@ void ligar_leds_azuis(uint32_t valor_led, PIO pio, uint sm)
         pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
-
+// Acende todos os leds na cor Vermelho, com intesidade de 80%
+void ligar_leds_reds(uint32_t valor_led, PIO pio, uint sm)
+{
+    sleep_ms(800);
+    for (int i = 0; i < 25; i++)
+    {
+        valor_led = matrix_rgb(0.0, 0.8, 0.0);
+        pio_sm_put_blocking(pio, sm, valor_led);
+    }
+}
 // Acende todos os leds na cor verde, com intesidade de 50%
 void ligar_leds_verdes(uint32_t valor_led, PIO pio, uint sm)
 {

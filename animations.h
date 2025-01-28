@@ -15,9 +15,13 @@ void play_animation1(uint32_t valor_led, PIO pio, uint sm);
 
 void play_animation4(uint32_t valor_led, PIO pio, uint sm);
 
+void play_animation5(uint32_t valor_led, PIO pio, uint sm);
+
 void apagar_matriz(uint32_t valor_led, PIO pio, uint sm);
 
 void ligar_leds_azuis(uint32_t valor_led, PIO pio, uint sm);
+
+void ligar_leds_reds(uint32_t valor_led, PIO pio, uint sm);
 
 void ligar_leds_verdes(uint32_t valor_led, PIO pio, uint sm);
 
