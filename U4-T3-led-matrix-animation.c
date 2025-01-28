@@ -158,6 +158,8 @@ void processar_comandos(char comando, uint32_t valor_led, PIO pio, uint sm)
         break;
     case '5': // Animação 5
         play_animation5(valor_led, pio, sm);
+    case '7': // Animação 5
+        play_animation7(valor_led, pio, sm);
         break;
     case 'A': // Apagar matriz
         apagar_matriz(valor_led, pio, sm);
@@ -170,6 +172,9 @@ void processar_comandos(char comando, uint32_t valor_led, PIO pio, uint sm)
         break;
     case 'D': // Ligar LEDs verdes
         ligar_leds_verdes(valor_led, pio, sm);
+        break;
+    case '#': // Ligar LEDs verdes
+        ligar_leds_brancos(valor_led, pio, sm);
         break;
     case '6': // Buzzer por 2 segundos
         acionar_buzzer_com_frequencia(1000, 2000);
@@ -201,10 +206,12 @@ int main()
     printf("Sistema iniciado. Insira um comando:\n");
     printf("1: Animação 1\n");
     printf("4: Animação 4\n");
+    printf("7: Animação 7\n");
     printf("A: Apagar LEDs\n");
     printf("B: Ligar LEDs azuis\n"); 
     printf("C: Ligar LEDs reds\n");
     printf("D: Ligar LEDs verdes\n");
+    printf("#: Ligar LEDs brancos\n");
     printf("6: Buzzer por 2 segundos\n");
     printf("*: Reset USB\n");
 
