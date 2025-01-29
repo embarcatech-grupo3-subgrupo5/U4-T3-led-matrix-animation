@@ -234,6 +234,15 @@ const double animation2_frames[5][25] = {
     }//Rosto Feliz
 };
 
+const float animation4_frames[5][25] = {
+    // Definindo os frames do relâmpago em padrões de acendimento e apagamento
+    {1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0},
+    {0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0},
+    {1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0},
+    {0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0},
+    {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
+};
+
 // Funções para reproduzir as animações
 void play_animation1(uint32_t valor_led, PIO pio, uint sm) {
     // Frequências das notas da música Zelda's Lullaby - introdução
@@ -364,35 +373,25 @@ void play_animation3(uint32_t valor_led, PIO pio, uint sm)
     }
 }
 
-void play_animation4(uint32_t valor_led, PIO pio, uint sm) {
-    const int delay_ms = 100; // Tempo de espera entre os passos da animação
-    const double r = 0.0, g = 0.0, b = 1.0; // Cor azul
+void play_animation4(uint32_t valor_led, PIO pio, uint sm)
+{
+    // Cores do relâmpago e apagado
+    float yellow[3] = {1.0, 1.0, 0.0}; // Amarelo
+    float off[3] = {0.0, 0.0, 0.0}; // Preto (apagado)
 
-    for (int i = 0; i < valor_led; i++) {
-        double desenho[valor_led];
-        
-        // Acende os LEDs progressivamente
-        for (int j = 0; j <= i; j++) {
-            desenho[j] = matrix_rgb(b, r, g);
+    // Intervalo entre os flashes
+    uint32_t FLASH_INTERVAL = 100;
+
+    for (int f = 0; f < 5; f++) {
+        for (int i = 0; i < 25; i++) {
+            if (animation4_frames[f][i] == 1.0) {
+                valor_led = matrix_rgb(yellow[0], yellow[1], yellow[2]); // Cor do relâmpago (Amarelo)
+            } else {
+                valor_led = matrix_rgb(off[0], off[1], off[2]); // Apagar o LED (Preto)
+            }
+            pio_sm_put_blocking(pio, sm, valor_led);
         }
-        
-        desenho_pio(desenho, valor_led, pio, sm, r, g, b);
-        sleep_ms(delay_ms);
-    }
-
-    // Aguarda um instante antes de apagar
-    sleep_ms(500);
-
-    // Apaga os LEDs progressivamente
-    for (int i = valor_led - 1; i >= 0; i--) {
-        double desenho[valor_led];
-
-        for (int j = 0; j <= i; j++) {
-            desenho[j] = matrix_rgb(b, r, g);
-        }
-
-        desenho_pio(desenho, valor_led, pio, sm, 0, 0, 0);
-        sleep_ms(delay_ms);
+        sleep_ms(FLASH_INTERVAL); // Intervalo entre os flashes
     }
 }
 
