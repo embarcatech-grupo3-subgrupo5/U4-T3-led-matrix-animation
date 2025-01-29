@@ -111,7 +111,7 @@ Essa alternância é controlada pela flag ```modo_uart```, que é diretamente no
 
 ## Vídeo Apresentação
 
-Confira o vídeo demonstrativo do projeto: [Link para o vídeo](#)
+Confira o vídeo demonstrativo do projeto: [Link para o vídeo](https://youtu.be/4gsGN6_1sM0)
 
 ---
 
