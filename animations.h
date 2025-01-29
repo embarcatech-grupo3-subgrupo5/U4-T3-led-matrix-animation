@@ -17,7 +17,7 @@ void play_animation2(uint32_t valor_led, PIO pio, uint sm);
 
 void play_animation3(uint32_t valor_led, PIO pio, uint sm);
 
-void play_animation7(uint32_t valor_led, PIO pio, uint sm);
+void play_animation4(uint32_t valor_led, PIO pio, uint sm);
 
 void apagar_matriz(uint32_t valor_led, PIO pio, uint sm);
 

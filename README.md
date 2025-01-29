@@ -149,10 +149,11 @@ Essa alternância é controlada pela flag ```modo_uart```, que é diretamente no
 
 Este projeto foi desenvolvido pela equipe do curso Embarcatech, com a colaboração dos seguintes integrantes:
 
-- **Líder:** Geison
+- **Líder:** Geison (Animação 1, Configuração inicial do projeto, Diagrama no Wokwi, Leitura do teclado)
 - **Desenvolvedores:**
 - Emyle (Animação 2 e teclas A, B, D)
 - Julierme (Animação 3 e tecla C)
+- Alexandre (Animação 4)
 
 [Outros integrantes a serem adicionados]
 

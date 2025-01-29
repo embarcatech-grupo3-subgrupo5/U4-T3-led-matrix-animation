@@ -159,8 +159,8 @@ void processar_comandos(char comando, uint32_t valor_led, PIO pio, uint sm)
     case '3': // Animação 3
         play_animation3(valor_led, pio, sm);
         break;
-    case '7': // Animação 7
-        play_animation7(valor_led, pio, sm);
+    case '4': // Animação 4
+        play_animation4(valor_led, pio, sm);
         break;
     case 'A': // Apagar matriz
         apagar_matriz(valor_led, pio, sm);
@@ -208,7 +208,7 @@ int main()
     printf("1: Animação 1\n");
     printf("2: Animação 2\n");  
     printf("3: Animação 3\n");
-    printf("7: Animação 7\n");
+    printf("4: Animação 4\n");
     printf("A: Apagar LEDs\n");
     printf("B: Ligar LEDs azuis\n"); 
     printf("C: Ligar LEDs reds\n");

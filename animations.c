@@ -234,7 +234,7 @@ const double animation2_frames[5][25] = {
     }//Rosto Feliz
 };
 
-const double animation7_frames[3][25] = {
+const double animation4_frames[3][25] = {
     
     {0.2, 0.1, 0.0, 0.1, 0.2,
     0.3, 0.2, 0.1, 0.2, 0.3,
@@ -387,7 +387,7 @@ void play_animation3(uint32_t valor_led, PIO pio, uint sm)
     }
 }
 
-void play_animation7(uint32_t valor_led, PIO pio, uint sm)
+void play_animation4(uint32_t valor_led, PIO pio, uint sm)
 {
     //taxa de quadros por segundo
     #define FPS 10
@@ -396,7 +396,7 @@ void play_animation7(uint32_t valor_led, PIO pio, uint sm)
     #define FRAME_DELAY (1000 / FPS)
 
     //vetor de quadros da animação
-    double *quadros[] = {animation7_frames};
+    double *quadros[] = {animation4_frames};
     size_t total_quadros = sizeof(quadros) / sizeof(quadros[0]);
 
     size_t quadro_atual = 0;
@@ -413,7 +413,6 @@ void play_animation7(uint32_t valor_led, PIO pio, uint sm)
     }
 }
 
-// rotina para acionar a matrix de leds - ws2812b
 //  Função para desenhar na matriz de LEDs
 void desenho_pio(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b)
 {
@@ -466,5 +465,7 @@ void ligar_leds_brancos(uint32_t valor_led, PIO pio, uint sm)
         pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
+
 void desenho_pio_blue(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b);
+
 void desenho_pio_red(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b);
