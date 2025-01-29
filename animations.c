@@ -364,6 +364,38 @@ void play_animation3(uint32_t valor_led, PIO pio, uint sm)
     }
 }
 
+void play_animation4(uint32_t valor_led, PIO pio, uint sm) {
+    const int delay_ms = 100; // Tempo de espera entre os passos da animação
+    const double r = 0.0, g = 0.0, b = 1.0; // Cor azul
+
+    for (int i = 0; i < valor_led; i++) {
+        double desenho[valor_led];
+        
+        // Acende os LEDs progressivamente
+        for (int j = 0; j <= i; j++) {
+            desenho[j] = matrix_rgb(b, r, g);
+        }
+        
+        desenho_pio(desenho, valor_led, pio, sm, r, g, b);
+        sleep_ms(delay_ms);
+    }
+
+    // Aguarda um instante antes de apagar
+    sleep_ms(500);
+
+    // Apaga os LEDs progressivamente
+    for (int i = valor_led - 1; i >= 0; i--) {
+        double desenho[valor_led];
+
+        for (int j = 0; j <= i; j++) {
+            desenho[j] = matrix_rgb(b, r, g);
+        }
+
+        desenho_pio(desenho, valor_led, pio, sm, 0, 0, 0);
+        sleep_ms(delay_ms);
+    }
+}
+
 // rotina para acionar a matrix de leds - ws2812b
 //  Função para desenhar na matriz de LEDs
 void desenho_pio(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b)
