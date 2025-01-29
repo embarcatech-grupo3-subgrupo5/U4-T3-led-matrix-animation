@@ -257,13 +257,15 @@ const double animation4_frames[3][25] = {
     }
 };
 
-const float animation5_frames[5][25] = {
+const float animation5_frames[7][25] = {
     // Definindo os frames do relâmpago em padrões de acendimento e apagamento
     {1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0},
     {0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0},
     {1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0},
     {0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0},
-    {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
+    {1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0},
+    {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
+    {1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0}
 };
 
 // Funções para reproduzir as animações
@@ -422,19 +424,18 @@ void play_animation4(uint32_t valor_led, PIO pio, uint sm)
     }
 }
 
-void play_animation5(uint32_t valor_led, PIO pio, uint sm)
-{
+void play_animation5(uint32_t valor_led, PIO pio, uint sm){
     // Cores do relâmpago e apagado
-    float yellow[3] = {1.0, 1.0, 0.0}; // Amarelo
+    float yellow[3] = {0.0, 1.0, 1.0}; // Amarelo
     float off[3] = {0.0, 0.0, 0.0}; // Preto (apagado)
 
     // Intervalo entre os flashes
-    uint32_t FLASH_INTERVAL = 100;
+    uint32_t FLASH_INTERVAL = 300;
 
-    for (int f = 0; f < 5; f++) {
+    for (int f = 0; f < 7; f++) {
         for (int i = 0; i < 25; i++) {
             if (animation5_frames[f][i] == 1.0) {
-                valor_led = matrix_rgb(yellow[0], yellow[1], yellow[2]); // Cor do relâmpago (Amarelo)
+                valor_led = matrix_rgb(0.0, 1.0, 1.0); // Garante o amarelo correto
             } else {
                 valor_led = matrix_rgb(off[0], off[1], off[2]); // Apagar o LED (Preto)
             }
