@@ -304,8 +304,6 @@ void play_animation7(uint32_t valor_led, PIO pio, uint sm)
     //tempo entre quadros (em ms)
     #define FRAME_DELAY (1000 / FPS)
 
-    uint32_t valor_led;
-
     //vetor de quadros da animação
     double *quadros[] = {animation7_frames};
     size_t total_quadros = sizeof(quadros) / sizeof(quadros[0]);
