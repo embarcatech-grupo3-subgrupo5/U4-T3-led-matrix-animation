@@ -8,6 +8,12 @@
 
 ---
 
+## Vídeo Apresentação
+
+Confira o vídeo demonstrativo do projeto: [Link para o vídeo](https://youtu.be/4gsGN6_1sM0)
+
+---
+
 Este projeto faz parte da terceira atividade obrigatória da unidade 4 do curso Embarcatech em sistemas embarcados e tem como objetivo utilizar o simulador Wokwi, o microcontrolador Raspberry Pi Pico W, e um teclado matricial 4x4 para controlar animações em uma matriz de LEDs coloridos 5x5 WS2812.
 
 ## Descrição do Projeto
@@ -109,18 +115,12 @@ Essa alternância é controlada pela flag ```modo_uart```, que é diretamente no
 
 ---
 
-## Vídeo Apresentação
-
-Confira o vídeo demonstrativo do projeto: [Link para o vídeo](#)
-
----
-
 ### Checklist de Desenvolvimento
 
 - [x] **Implementação das animações de 0 a 9:**  
   - [x] **Animação 1**: Desenvolvida por Geison.  
-  - [x] **Animação 4**: Desenvolvida por Emyle.  
-  - [x] **Animação 5**: Desenvolvida por Julierme.  
+  - [x] **Animação 2**: Desenvolvida por Emyle.  
+  - [x] **Animação 3**: Desenvolvida por Julierme.  
   - [ ] Demais animações pendentes.
 
 - [x] **Teclas de controle:**  
@@ -151,8 +151,8 @@ Este projeto foi desenvolvido pela equipe do curso Embarcatech, com a colaboraç
 
 - **Líder:** Geison
 - **Desenvolvedores:**
-- Emyle (Animação 4 e teclas A, B, D)
-- Julierme (Animação 5 e tecla C)
+- Emyle (Animação 2 e teclas A, B, D)
+- Julierme (Animação 3 e tecla C)
 
 [Outros integrantes a serem adicionados]
 
