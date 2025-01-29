@@ -159,6 +159,9 @@ void processar_comandos(char comando, uint32_t valor_led, PIO pio, uint sm)
     case '3': // Animação 3
         play_animation3(valor_led, pio, sm);
         break;
+    case '4': // Animação 4
+        play_animation4(valor_led, pio, sm); 
+        break;
     case 'A': // Apagar matriz
         apagar_matriz(valor_led, pio, sm);
         break;
