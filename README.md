@@ -119,8 +119,8 @@ Confira o vídeo demonstrativo do projeto: [Link para o vídeo](#)
 
 - [x] **Implementação das animações de 0 a 9:**  
   - [x] **Animação 1**: Desenvolvida por Geison.  
-  - [x] **Animação 4**: Desenvolvida por Emyle.  
-  - [x] **Animação 5**: Desenvolvida por Julierme.  
+  - [x] **Animação 2**: Desenvolvida por Emyle.  
+  - [x] **Animação 3**: Desenvolvida por Julierme.  
   - [ ] Demais animações pendentes.
 
 - [x] **Teclas de controle:**  
@@ -151,8 +151,8 @@ Este projeto foi desenvolvido pela equipe do curso Embarcatech, com a colaboraç
 
 - **Líder:** Geison
 - **Desenvolvedores:**
-- Emyle (Animação 4 e teclas A, B, D)
-- Julierme (Animação 5 e tecla C)
+- Emyle (Animação 2 e teclas A, B, D)
+- Julierme (Animação 3 e tecla C)
 
 [Outros integrantes a serem adicionados]
 

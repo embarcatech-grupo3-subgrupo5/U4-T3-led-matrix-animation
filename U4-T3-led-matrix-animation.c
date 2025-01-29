@@ -13,7 +13,7 @@
 #include "pio_matrix.pio.h"
 
 //--------------------------------------------------------------------------------------------------------------------------------
-bool modo_uart = true; // Inicia no modo UART por padrão, para utilizar o modo do teclado matricial no wokwi, altere para false  |
+bool modo_uart = false; // Inicia no modo UART por padrão, para utilizar o modo do teclado matricial no wokwi, altere para false  |
 //--------------------------------------------------------------------------------------------------------------------------------
 
 // Definição do número de LEDs
@@ -153,11 +153,11 @@ void processar_comandos(char comando, uint32_t valor_led, PIO pio, uint sm)
     case '1': // Animação 1
         play_animation1(valor_led, pio, sm);
         break;
-    case '4': // Animação 4
-        play_animation4(valor_led, pio, sm);
+    case '2': // Animação 2
+        play_animation2(valor_led, pio, sm);
         break;
-    case '5': // Animação 5
-        play_animation5(valor_led, pio, sm);
+    case '3': // Animação 3
+        play_animation3(valor_led, pio, sm);
         break;
     case 'A': // Apagar matriz
         apagar_matriz(valor_led, pio, sm);

@@ -201,7 +201,7 @@ const double animation1_frames[40][25] = {
         1.0, 1.0, 1.0, 1.0, 1.0} // "Zelda" text pattern
 };
 
-const double animation4_frames[5][25] = {
+const double animation2_frames[5][25] = {
     {0.0, 0.9, 0.0, 0.9, 0.0,
      0.0, 0.0, 0.0, 0.0, 0.0,
      0.0, 0.0, 0.0, 0.0, 0.0,
@@ -290,26 +290,26 @@ void play_animation1(uint32_t valor_led, PIO pio, uint sm) {
     }
 }
 
-void play_animation4(uint32_t valor_led, PIO pio, uint sm)
+void play_animation2(uint32_t valor_led, PIO pio, uint sm)
 {
     sleep_ms(500);
     for (int f = 0; f < 5; f++)
     {
         for (int i = 0; i < 25; i++)
         {
-            if (animation4_frames[f][24 - i] == 1.0)
+            if (animation2_frames[f][24 - i] == 1.0)
             {
                 valor_led = matrix_rgb(0.0, 0.0, 1.0); // Verde
             }
-            else if (animation4_frames[f][24 - i] == 0.5)
+            else if (animation2_frames[f][24 - i] == 0.5)
             {
                 valor_led = matrix_rgb(1.0, 0.0, 0.0); // Azul
             }
-            else if (animation4_frames[f][24 - i] == 0.9)
+            else if (animation2_frames[f][24 - i] == 0.9)
             {
                 valor_led = matrix_rgb(0.0, 1.0, 0.0); // Vermelho
             }
-            else if (animation4_frames[f][24 - i] == 0.0)
+            else if (animation2_frames[f][24 - i] == 0.0)
             {
                 valor_led = matrix_rgb(0.0, 0.0, 0.0);
             }
@@ -319,7 +319,7 @@ void play_animation4(uint32_t valor_led, PIO pio, uint sm)
     }
 }
 
-void play_animation5(uint32_t valor_led, PIO pio, uint sm)
+void play_animation3(uint32_t valor_led, PIO pio, uint sm)
 {
     // Frequências de uma melodia curta
     uint32_t frequencias[] = {440, 494, 523, 440, 494, 523, 659, 698, 440, 523};
