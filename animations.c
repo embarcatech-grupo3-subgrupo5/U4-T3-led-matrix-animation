@@ -234,6 +234,29 @@ const double animation2_frames[5][25] = {
     }//Rosto Feliz
 };
 
+const double animation7_frames[3][25] = {
+    
+    {0.2, 0.1, 0.0, 0.1, 0.2,
+    0.3, 0.2, 0.1, 0.2, 0.3,
+    0.5, 0.4, 0.3, 0.4, 0.5,
+    0.7, 0.5, 0.4, 0.5, 0.7,
+    1.0, 0.8, 0.6, 0.8, 1.0
+    },
+    {0.1, 0.0, 0.0, 0.0, 0.1,
+    0.2, 0.1, 0.0, 0.1, 0.2,
+    0.4, 0.3, 0.2, 0.3, 0.4,
+    0.6, 0.4, 0.3, 0.4, 0.6,
+    0.9, 0.7, 0.5, 0.7, 0.9
+    },
+
+    {0.0, 0.0, 0.0, 0.0, 0.0,
+    0.1, 0.0, 0.0, 0.0, 0.1,
+    0.3, 0.2, 0.1, 0.2, 0.3,
+    0.5, 0.3, 0.2, 0.3, 0.5,
+    0.8, 0.6, 0.4, 0.6, 0.8
+    }
+};
+
 // Funções para reproduzir as animações
 void play_animation1(uint32_t valor_led, PIO pio, uint sm) {
     // Frequências das notas da música Zelda's Lullaby - introdução
@@ -364,6 +387,32 @@ void play_animation3(uint32_t valor_led, PIO pio, uint sm)
     }
 }
 
+void play_animation7(uint32_t valor_led, PIO pio, uint sm)
+{
+    //taxa de quadros por segundo
+    #define FPS 10
+
+    //tempo entre quadros (em ms)
+    #define FRAME_DELAY (1000 / FPS)
+
+    //vetor de quadros da animação
+    double *quadros[] = {animation7_frames};
+    size_t total_quadros = sizeof(quadros) / sizeof(quadros[0]);
+
+    size_t quadro_atual = 0;
+
+    for (int iteracao = 0; iteracao < 10; iteracao++) { // Executa 10 ciclos completos da animação
+        // Exibe o quadro atual
+        desenho_pio(quadros[quadro_atual], valor_led, pio, sm, 1.0, 0.4, 0.0); // Tons de laranja/vermelho
+
+        // Atualiza para o próximo quadro
+        quadro_atual = (quadro_atual + 1) % total_quadros;
+
+        // Aguarda antes de mostrar o próximo quadro
+        sleep_ms(FRAME_DELAY);
+    }
+}
+
 // rotina para acionar a matrix de leds - ws2812b
 //  Função para desenhar na matriz de LEDs
 void desenho_pio(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b)
@@ -404,6 +453,16 @@ void ligar_leds_verdes(uint32_t valor_led, PIO pio, uint sm)
     for (int i = 0; i < 25; i++)
     {
         valor_led = matrix_rgb(0.0, 0.0, 0.5);
+        pio_sm_put_blocking(pio, sm, valor_led);
+    }
+}
+// Acende todos os leds na cor Branco, com intesidade de 20%
+void ligar_leds_brancos(uint32_t valor_led, PIO pio, uint sm)
+{
+    sleep_ms(800);
+    for (int i = 0; i < 25; i++)
+    {
+        valor_led = matrix_rgb(0.2, 0.2, 0.2);
         pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
