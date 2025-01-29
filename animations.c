@@ -12,13 +12,91 @@
 #include "pico/bootrom.h"
 
 // Frames da Animação 1 - Geison
-const double animation1_frames[24][25] = {
+const double animation1_frames[40][25] = {
     {   
-        0.0, 1.0, 1.0, 1.0, 0.0,
-        1.0, 0.0, 1.0, 0.0, 1.0,
+        0.0, 0.0, 1.0, 0.0, 0.0,
+        0.0, 1.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0, 0.0,
+        0.0, 1.0, 1.0, 1.0, 0.0}, //1
+    {   
+        0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.0}, //vazio
+    {   
+        0.0, 0.0, 1.0, 0.0, 0.0,
+        0.0, 1.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0, 0.0,
+        0.0, 1.0, 1.0, 1.0, 0.0}, //1
+    {   
         1.0, 1.0, 1.0, 1.0, 1.0,
-        1.0, 0.0, 1.0, 0.0, 1.0,
-        0.0, 1.0, 1.0, 1.0, 0.0},
+        0.0, 0.0, 0.0, 1.0, 0.0,
+        0.0, 0.0, 1.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0, 0.0,
+        1.0, 1.0, 1.0, 1.0, 1.0}, //Z
+    {   
+        1.0, 1.0, 1.0, 1.0, 1.0,
+        0.0, 0.0, 0.0, 1.0, 0.0,
+        0.0, 0.0, 1.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0, 0.0,
+        1.0, 1.0, 1.0, 1.0, 1.0}, //Z
+    {   
+        1.0, 1.0, 1.0, 1.0, 1.0,
+        0.0, 0.0, 0.0, 1.0, 0.0,
+        0.0, 0.0, 1.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0, 0.0,
+        1.0, 1.0, 1.0, 1.0, 1.0},                 
+    {   
+        1.0, 1.0, 1.0, 1.0, 1.0,
+        1.0, 0.0, 0.0, 0.0, 0.0,
+        1.0, 1.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 0.0, 0.0,
+        1.0, 1.0, 1.0, 1.0, 1.0}, // E
+    {   
+        1.0, 1.0, 1.0, 1.0, 1.0,
+        1.0, 0.0, 0.0, 0.0, 0.0,
+        1.0, 1.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 0.0, 0.0,
+        1.0, 1.0, 1.0, 1.0, 1.0}, // E 
+    {   
+        1.0, 0.0, 0.0, 0.0, 0.8,
+        1.0, 0.0, 0.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 0.0, 0.8,
+        1.0, 0.0, 0.0, 0.0, 0.0,
+        1.0, 1.0, 1.0, 1.0, 1.0}, // L
+    {   
+        1.0, 0.0, 0.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 0.0, 0.0,
+        1.0, 1.0, 1.0, 1.0, 1.0}, // L
+    {
+        1.0, 1.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0,
+        1.0, 1.0, 1.0, 0.0, 0.0}, // D
+    {
+        1.0, 1.0, 1.0, 0.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0,
+        1.0, 0.0, 0.0, 1.0, 0.0,
+        1.0, 1.0, 1.0, 0.0, 0.0}, // D   
+    {
+        0.0, 1.0, 1.0, 1.0, 0.0,
+        1.0, 0.0, 0.0, 0.0, 1.0,
+        1.0, 1.0, 1.0, 1.0, 1.0,
+        1.0, 0.0, 0.0, 0.0, 1.0,
+        1.0, 0.0, 0.0, 0.0, 1.0}, //A
+    {
+        0.0, 1.0, 1.0, 1.0, 0.0,
+        1.0, 0.0, 0.0, 0.0, 1.0,
+        1.0, 1.0, 1.0, 1.0, 1.0,
+        1.0, 0.0, 0.0, 0.0, 1.0,
+        1.0, 0.0, 0.0, 0.0, 1.0}, //A
     {   
         0.0, 1.0, 1.0, 1.0, 0.0,
         1.0, 0.0, 0.0, 0.0, 1.0,
@@ -123,7 +201,6 @@ const double animation1_frames[24][25] = {
         1.0, 1.0, 1.0, 1.0, 1.0} // "Zelda" text pattern
 };
 
-
 const double animation4_frames[5][25] = {
     {0.0, 0.9, 0.0, 0.9, 0.0,
      0.0, 0.0, 0.0, 0.0, 0.0,
@@ -158,9 +235,8 @@ const double animation4_frames[5][25] = {
 };
 
 // Funções para reproduzir as animações
-void play_animation1(uint32_t valor_led, PIO pio, uint sm)
-{
-    // Frequências das notas da musica Zelda's Lullaby - introdução da musica
+void play_animation1(uint32_t valor_led, PIO pio, uint sm) {
+    // Frequências das notas da música Zelda's Lullaby - introdução
     uint32_t frequencias[] = {
         330, 392, 294, 262, 294, 330, 392, 294, 262, 294,
         440, 392, 349, 330, 294, 262, 330, 294, 262, 294,
@@ -172,25 +248,40 @@ void play_animation1(uint32_t valor_led, PIO pio, uint sm)
         300, 300, 300, 300, 150, 150, 300, 150, 150, 300,
         300, 300, 300, 300, 150, 150, 300, 150, 150, 300};
 
-    for (int f = 0; f < 24; f++)
-    { // 24 frames totais
-        // Atualizar LEDs
-        for (int i = 0; i < 25; i++)
-        {
-            if (animation1_frames[f][i] == 1.0)
-            {
-                valor_led = matrix_rgb(1.0, 1.0, 0.0); // Amarelo
+    // Cores do arco-íris (em RGB)
+    uint32_t rainbow_colors[7][3] = {
+        {1.0, 0.0, 0.0}, // Vermelho
+        {1.0, 0.5, 0.0}, // Laranja
+        {1.0, 1.0, 0.0}, // Amarelo
+        {0.0, 1.0, 0.0}, // Verde
+        {0.0, 0.0, 1.0}, // Azul
+        {0.5, 0.0, 1.0}, // Índigo
+        {0.8, 0.0, 1.0}  // Violeta
+    };
+
+    for (int f = 0; f < 40; f++) { // 40 frames totais
+        // Atualizar LEDs com cores do arco-íris
+        for (int row = 0; row < 5; row++) { // Inverter as linhas
+            int inverted_row = 4 - row; // Espelha verticalmente (exemplo: 0 vira 4, 1 vira 3)
+            for (int col = 0; col < 5; col++) {
+                int index = inverted_row * 5 + col; // Calcula o índice no array 1D
+                if (animation1_frames[f][index] == 1.0) {
+                    // Selecionar uma cor do arco-íris com base no índice
+                    int color_index = (f + row + col) % 7;
+                    valor_led = matrix_rgb(
+                        rainbow_colors[color_index][0],
+                        rainbow_colors[color_index][1],
+                        rainbow_colors[color_index][2]
+                    );
+                } else {
+                    valor_led = matrix_rgb(0.0, 0.0, 0.0); // Preto
+                }
+                pio_sm_put_blocking(pio, sm, valor_led);
             }
-            else
-            {
-                valor_led = matrix_rgb(0.0, 0.0, 0.0); // Preto
-            }
-            pio_sm_put_blocking(pio, sm, valor_led);
         }
 
         // Tocar a nota correspondente ao frame atual
-        if (f < 20 && frequencias[f] != 0)
-        {
+        if (f < 30 && frequencias[f] != 0) {
             acionar_buzzer_com_frequencia(frequencias[f], duracoes[f]);
         }
 
@@ -272,7 +363,6 @@ void play_animation5(uint32_t valor_led, PIO pio, uint sm)
         sleep_ms(500);
     }
 }
-
 
 // rotina para acionar a matrix de leds - ws2812b
 //  Função para desenhar na matriz de LEDs
