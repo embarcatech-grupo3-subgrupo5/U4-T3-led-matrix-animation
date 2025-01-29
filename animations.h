@@ -27,6 +27,8 @@ void ligar_leds_vermelhos(uint32_t valor_led, PIO pio, uint sm);
 
 void ligar_leds_verdes(uint32_t valor_led, PIO pio, uint sm);
 
+void ligar_leds_brancos(uint32_t valor_led, PIO pio, uint sm);
+
 void acionar_buzzer_com_frequencia(uint32_t frequencia, uint32_t duracao_ms);
 
 #endif // ANIMATIONS_H
